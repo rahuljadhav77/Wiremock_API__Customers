@@ -1,159 +1,205 @@
-# Customer API with WireMock + Excel (or CSV)
+# WireMock Customer API — with AI Stub Generator
 
-Traffic hits **WireMock** on port **8080**. WireMock **reverse-proxies** `/customers*` to a **Flask** service on port **5001**, which reads and writes a data file—**Excel `.xlsx` by default**, or **`.csv`** if you point `CUSTOMER_DATA_PATH` at a CSV path.
+A fully-featured WireMock mock API platform for customer data, with an **AI-powered autonomous stub generator** using Google's **Gemma 4 31B** model.
+
+Traffic hits **WireMock** on port **8080**. WireMock **reverse-proxies** `/customers*` to a **Flask** backend on port **5001**, which reads and writes an Excel `.xlsx` or `.csv` data file.
+
+---
 
 ## Prerequisites
 
-- Java 17+ (WireMock standalone JAR)
-- Python 3 with `pip` (backend installs `openpyxl` for Excel)
+- **Java 17+** — for WireMock standalone JAR
+- **Python 3.10+** with `pip`
+- **Google Gemini API Key** — for AI stub generation ([get one free here](https://aistudio.google.com/app/apikey))
 
-## Install WireMock
+---
 
-The standalone JAR lives at `tools/wiremock-standalone-3.9.1.jar`. To download again:
+## Quick Start
+
+### 1. Set your API Key
+
+Create a `.env` file (or set the environment variable in PowerShell):
+
+```powershell
+# Option A: Set in current PowerShell session
+$env:GEMINI_API_KEY = "your_api_key_here"
+
+# Option B: Copy the example file and fill in your key (never commit .env)
+Copy-Item .env.example .env
+```
+
+### 2. Install WireMock JAR
 
 ```powershell
 powershell -NoProfile -Command "New-Item -ItemType Directory -Path '.\tools' -Force | Out-Null; Invoke-WebRequest -Uri 'https://repo1.maven.org/maven2/org/wiremock/wiremock-standalone/3.9.1/wiremock-standalone-3.9.1.jar' -OutFile '.\tools\wiremock-standalone-3.9.1.jar'"
 ```
 
-## Data file
-
-### Default: Excel `.xlsx`
-
-- **Path:** `backend/data/customers.xlsx`
-- **Sheet:** first (active) sheet
-- **Row 1:** column headers, in this exact order:  
-  `customer_id`, `first_name`, `last_name`, `email`, `phone`, `status`, `registered_at`
-- **Row 2+:** one customer per row  
-- Edit in Excel, save as `.xlsx`. **Restart the backend** if it has the file open locked (or close Excel first).
-- If the file is **missing or empty**, the app creates it with three sample rows on first startup.
-
-### Optional: CSV
-
-- Set **`CUSTOMER_DATA_PATH`** to a path ending in `.csv` (UTF-8).
-- Same column names as header row; commas as delimiter.
-
-## Run everything (recommended)
+### 3. Start everything
 
 ```powershell
 .\start-all.ps1
 ```
 
-## Run components separately
+---
 
-**Terminal 1 — backend:**
+## AI Stub Generator
 
-```powershell
-.\start-backend.ps1
-```
+### Option A — Web UI (recommended)
 
-**Terminal 2 — WireMock:**
+Start the Monitor UI, then open the Stub Generator in your browser:
 
 ```powershell
-.\start-wiremock.ps1
+.\start-monitor-ui.ps1
 ```
 
-## Where to see the live APIs
+Open: **`http://127.0.0.1:5055/stub-generator`**
 
-Use the **same two endpoints** in both “run on PC” and Docker modes; only how you start the stack changes.
+The UI has two tabs:
 
-| What | URL / location |
-|------|----------------|
-| **GET** customer | `http://127.0.0.1:8080/customers/{id}` (through WireMock) |
-| **POST** customer | `http://127.0.0.1:8080/customers` with JSON body |
+| Tab | What you provide | What happens |
+|-----|-----------------|--------------|
+| **Swagger / OpenAPI** | Upload a `.yaml`, `.yml`, or `.json` OpenAPI spec | Agent reads every endpoint + status code, generates and saves all stubs automatically |
+| **JSON Request & Response** | Paste a request description and expected response | "Preview" shows the stub; "Generate & Save" writes it to the correct mapping file |
+
+### Option B — Command Line (autonomous agent)
+
+```powershell
+# Activate virtual environment first
+.\.venv\Scripts\Activate.ps1
+
+# Generate stubs from a Swagger/OpenAPI file
+python agent_stub_generator.py --swagger openapi/customer-api.yaml
+
+# Generate stubs from a folder of JSON request/response pairs
+# Files must be named: req_<name>.json + res_<name>.json
+python agent_stub_generator.py --json-dir .\my-stubs\
+```
+
+The agent will:
+1. Parse every endpoint and response scenario
+2. Ask **Gemma 4 31B** to generate a valid WireMock mapping
+3. Auto-route each stub to the correct mapping file (`customer-api.json`, `loans-api.json`, etc.)
+4. Append the stubs without overwriting existing ones
+
+---
+
+## Live API Endpoints
+
+| What | URL |
+|------|-----|
+| GET customer | `http://127.0.0.1:8080/customers/{id}` |
+| POST customer | `http://127.0.0.1:8080/customers` |
 | WireMock admin | `http://127.0.0.1:8080/__admin` |
-| Browser docs (static) | Open `api-visualizer.html` from this folder |
-| OpenAPI YAML | `openapi/customer-api.yaml` |
-| Live Swagger UI (Docker only) | `http://127.0.0.1:8081` |
+| Monitor dashboard | `http://127.0.0.1:5055` |
+| AI Stub Generator UI | `http://127.0.0.1:5055/stub-generator` |
+| Backend health | `http://127.0.0.1:5001/health` |
+| OpenAPI spec | `openapi/customer-api.yaml` |
 
-**Run on your machine (no Docker):** start the backend and WireMock (`.\start-all.ps1`), then use the **8080** URLs above. Backend health (optional): `http://127.0.0.1:5001/health`.
-
-**Run in Docker:** start **Docker Desktop**, then see [Run everything in Docker](#run-everything-in-docker) below—then use the same **8080** URLs; Swagger UI is on **8081**.
-
-## Example calls (through WireMock)
+### Example calls
 
 ```powershell
+# GET a customer
 curl.exe -s http://127.0.0.1:8080/customers/cust-001
+
+# POST a new customer
 curl.exe -s -X POST http://127.0.0.1:8080/customers -H "Content-Type: application/json" --data-binary "@sample-create-customer.json"
 ```
 
-## Stop
+---
 
-- `.\stop-wiremock.ps1` — WireMock only  
-- `.\stop-backend.ps1` — backend only  
-- `.\stop-all.ps1` — both  
+## Monitor UI
+
+A local web dashboard to start/stop services, inspect versions, and trigger AI stub generation.
+
+```powershell
+.\start-monitor-ui.ps1       # Start
+.\stop-monitor-ui.ps1        # Stop
+```
+
+Open: `http://127.0.0.1:5055`
+
+Change port:
+```powershell
+$env:MONITOR_PORT="5056"; .\start-monitor-ui.ps1
+```
+
+---
+
+## Data File
+
+- **Default path:** `backend/data/customers.xlsx`
+- **Required columns (Row 1):** `customer_id`, `first_name`, `last_name`, `email`, `phone`, `status`, `registered_at`
+- **CSV alternative:** set `CUSTOMER_DATA_PATH` to a `.csv` file path
+
+If the file is missing, the backend creates it with sample rows on first startup.
+
+---
+
+## Start / Stop Individual Services
+
+```powershell
+.\start-backend.ps1       # Flask backend (port 5001)
+.\start-wiremock.ps1      # WireMock (port 8080)
+.\start-monitor-ui.ps1    # Monitor dashboard (port 5055)
+.\stop-all.ps1            # Stop everything
+```
+
+---
 
 ## Logs
 
-- Backend logs (which API route was triggered): `backend/logs/backend.log`
-- WireMock logs (proxy requests/responses): `logs/wiremock.log`
-
-To watch in real time (PowerShell):
-
 ```powershell
+# Watch backend log
 Get-Content -Path .\backend\logs\backend.log -Wait -Tail 50
-```
 
-In another terminal:
-
-```powershell
+# Watch WireMock log
 Get-Content -Path .\logs\wiremock.log -Wait -Tail 50
 ```
 
-If you run the stack with Docker Compose, use container logs instead:
+---
 
-```powershell
-docker compose logs -f customer-backend wiremock
-```
-
-## Monitor UI (localhost dashboard)
-
-A small responsive web UI to **see status**, **start/stop** WireMock and the backend, inspect **versions**, and run **`docker compose pull`**.
-
-- **Start UI:** `.\start-monitor-ui.ps1`
-- **Open:** `http://127.0.0.1:5055` (listens on **localhost only**)
-- **Stop UI:** `.\stop-monitor-ui.ps1`
-- **Change port:** `$env:MONITOR_PORT="5056"; .\start-monitor-ui.ps1`
-
-**Version label:** edit the project file `VERSION` (e.g. `1.0.0`) to bump what the dashboard shows as the bundle version. The UI also shows the WireMock JAR version (from `tools/`), `docker-compose.yml` image tags, and a snippet of `backend/requirements.txt`.
-
-## How it works
-
-- **On the host:** `wiremock/mappings/customer-api.json` **proxies** `/customers*` to `http://127.0.0.1:5001`.
-- **In Docker:** `wiremock/mappings-docker/customer-api.json` proxies to `http://customer-backend:5001` (the Flask container on the Compose network).
-- `backend/app.py` loads/saves rows via **openpyxl** (`.xlsx`/`.xlsm`) or **csv** module (`.csv`). POST appends a row; duplicate email → `409`. A lock serializes file updates.
-
-## Run everything in Docker
-
-Requires **Docker Desktop** (or another engine) running so `docker compose` can pull images and create containers.
-
-From `C:\Users\pc\wiremock-customer-api`:
+## Run in Docker
 
 ```powershell
 docker compose up --build -d
 ```
 
-- **API (WireMock → backend):** `http://127.0.0.1:8080` — e.g. `GET http://127.0.0.1:8080/customers/cust-001`
-- **Swagger UI:** `http://127.0.0.1:8081`
-- **WireMock admin:** `http://127.0.0.1:8080/__admin`
-
-Customer Excel data inside the backend container is stored in the **`customer-data`** Docker volume (persists across restarts).
-
-Stop and remove containers:
+| Service | Port | Role |
+|---------|------|------|
+| `wiremock` | 8080 | Mock API gateway |
+| `customer-backend` | 5001 (internal) | Flask data API |
+| `swagger-ui` | 8081 | OpenAPI docs |
 
 ```powershell
-docker compose down
+docker compose down       # Stop
+docker compose down -v    # Stop + wipe data volume
 ```
 
-To remove the named volume as well (wipe stored `.xlsx` data):
+---
 
-```powershell
-docker compose down -v
+## Project Structure
+
+```
+wiremock-customer-api/
+├── agent_stub_generator.py     # Autonomous AI stub generation agent
+├── generate_stubs.py           # Core AI integration (Gemma 4 31B)
+├── openapi/                    # OpenAPI specs
+├── wiremock/mappings/          # WireMock stub mappings (local)
+├── wiremock/mappings-docker/   # WireMock stub mappings (Docker)
+├── backend/                    # Flask Customer API
+├── monitor-ui/                 # Dashboard + AI Stub Generator UI
+│   ├── app.py                  # Flask routes
+│   └── templates/
+│       ├── dashboard.html      # Service monitor
+│       └── stub_generator.html # AI Stub Generator UI
+├── .env.example                # Copy to .env and add your API key
+└── start-all.ps1               # One-command startup
 ```
 
-### Docker layout
+---
 
-| Piece | Role |
-|-------|------|
-| `customer-backend` | Image built from `backend/Dockerfile`; listens on **5001** inside the network |
-| `wiremock` | Published **8080**; mappings from `wiremock/mappings-docker/` |
-| `swagger-ui` | Published **8081**; serves `openapi/customer-api.yaml` |
+## Security Notes
+
+- **Never commit `.env`** — it is already blocked by `.gitignore`
+- `GEMINI_API_KEY` must be set as an environment variable before running the AI features
+- The Monitor UI binds to `127.0.0.1` only — never expose it to a public network

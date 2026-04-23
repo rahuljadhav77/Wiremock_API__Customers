@@ -238,6 +238,97 @@ def create_app() -> Flask:
         except subprocess.TimeoutExpired:
             return jsonify({"ok": False, "message": "docker compose pull timed out"}), 500
 
+    @app.get("/stub-generator")
+    def stub_generator():
+        return render_template("stub_generator.html", port=MONITOR_PORT)
+
+    @app.post("/api/ai/generate-from-swagger")
+    def generate_from_swagger():
+        from flask import request as freq
+        import tempfile, io, importlib
+
+        file = freq.files.get("swagger_file")
+        if not file:
+            return jsonify({"ok": False, "message": "No file uploaded"}), 400
+
+        suffix = Path(file.filename).suffix.lower() if file.filename else ".yaml"
+        try:
+            with tempfile.NamedTemporaryFile(suffix=suffix, delete=False, dir=str(PROJECT_ROOT)) as tmp:
+                file.save(tmp.name)
+                tmp_path = Path(tmp.name)
+
+            if str(PROJECT_ROOT) not in sys.path:
+                sys.path.insert(0, str(PROJECT_ROOT))
+            import agent_stub_generator
+            importlib.reload(agent_stub_generator)
+
+            log_capture = io.StringIO()
+            import builtins
+            original_print = builtins.print
+            def capture_print(*args, **kwargs):
+                msg = " ".join(str(a) for a in args)
+                log_capture.write(msg + "\n")
+                original_print(*args, **kwargs)
+            builtins.print = capture_print
+
+            try:
+                agent_stub_generator.process_openapi(tmp_path)
+            finally:
+                builtins.print = original_print
+                tmp_path.unlink(missing_ok=True)
+
+            log = log_capture.getvalue()
+            count = log.count("Successfully appended")
+            errors = log.count("Error generating")
+            return jsonify({
+                "ok": True,
+                "message": f"Generated {count} stubs, {errors} errors",
+                "log": log,
+                "count": count,
+                "errors": errors
+            })
+        except Exception as e:
+            return jsonify({"ok": False, "message": str(e)}), 500
+
+    @app.post("/api/ai/generate-stub")
+    def ai_generate_stub():
+        from flask import request as flask_request
+        data = flask_request.get_json(silent=True) or {}
+        req_desc = data.get("request_description", "").strip()
+        res_desc = data.get("response_description", "").strip()
+        mapping_file = data.get("mapping_file", "").strip()
+
+        if not req_desc or not res_desc:
+            return jsonify({"ok": False, "message": "Missing request or response description"}), 400
+
+        try:
+            if str(PROJECT_ROOT) not in sys.path:
+                sys.path.append(str(PROJECT_ROOT))
+            import generate_stubs
+
+            stub = generate_stubs.generate_new_api_stub(req_desc, res_desc)
+
+            if not mapping_file:
+                mapping_file = str(generate_stubs.infer_mapping_file(req_desc))
+
+            if data.get("write"):
+                generate_stubs.append_stub_to_mapping_file(stub, Path(PROJECT_ROOT) / mapping_file)
+                return jsonify({
+                    "ok": True,
+                    "message": f"Generated and saved to {mapping_file}",
+                    "stub": stub,
+                    "file": mapping_file
+                })
+
+            return jsonify({
+                "ok": True,
+                "message": "Generated stub (preview only — not saved)",
+                "stub": stub,
+                "file": mapping_file
+            })
+        except Exception as e:
+            return jsonify({"ok": False, "message": str(e)}), 500
+
     return app
 
 
