@@ -1,117 +1,14 @@
 {
   "mappings": [
     {
-      "name": "apply-for-loan",
+      "priority": 1,
+      "name": "proxy-loans-to-file-backend",
       "request": {
-        "method": "POST",
-        "urlPath": "/loans/apply"
+        "method": "ANY",
+        "urlPathPattern": "/loans.*"
       },
       "response": {
-        "status": 201,
-        "jsonBody": {
-          "applicationId": "loan-8429",
-          "status": "PENDING",
-          "message": "Your loan application has been submitted and is currently being processed."
-        }
-      }
-    },
-    {
-      "name": "get-application",
-      "request": {
-        "method": "GET",
-        "urlPath": "/loans/loan-8429"
-      },
-      "response": {
-        "status": 200,
-        "jsonBody": {
-          "applicationId": "loan-8429",
-          "customerId": "123",
-          "loanType": "personal",
-          "loanAmount": 5000.0,
-          "status": "PENDING",
-          "createdAt": "2023-01-01T00:00:00Z",
-          "approvalDate": null
-        }
-      }
-    },
-    {
-      "name": "get-application-not-found",
-      "request": {
-        "method": "GET",
-        "urlPathPattern": "/loans/.*"
-      },
-      "response": {
-        "status": 404,
-        "jsonBody": {
-          "error": "Application not found"
-        }
-      },
-      "priority": 2
-    },
-    {
-      "name": "approve-application",
-      "request": {
-        "method": "POST",
-        "urlPath": "/loans/loan-8429/approve"
-      },
-      "response": {
-        "status": 200,
-        "jsonBody": {
-          "applicationId": "loan-12345678",
-          "status": "APPROVED",
-          "message": "Loan application approved"
-        }
-      }
-    },
-    {
-      "name": "reject-application",
-      "request": {
-        "method": "POST",
-        "urlPath": "/loans/loan-8429/reject"
-      },
-      "response": {
-        "status": 200,
-        "jsonBody": {
-          "applicationId": "loan-12345678",
-          "status": "REJECTED",
-          "message": "Loan application rejected"
-        }
-      }
-    },
-    {
-      "name": "list-applications",
-      "request": {
-        "method": "GET",
-        "urlPath": "/loans/applications"
-      },
-      "response": {
-        "status": 200,
-        "jsonBody": {
-          "applications": [
-            {
-              "applicationId": "loan-8429",
-              "customerId": "123",
-              "loanType": "personal",
-              "loanAmount": 5000.0,
-              "status": "PENDING",
-              "createdAt": "2023-01-01T00:00:00Z",
-              "approvalDate": null
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "health",
-      "request": {
-        "method": "GET",
-        "urlPath": "/health"
-      },
-      "response": {
-        "status": 200,
-        "jsonBody": {
-          "status": "ok"
-        }
+        "proxyBaseUrl": "http://127.0.0.1:5003"
       }
     }
   ]

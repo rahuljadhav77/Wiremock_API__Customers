@@ -1,0 +1,4 @@
+2026-04-04T23:23:38Z INFO Loan application created: app_id=loan-8baa7b12 customer_id=cust-001 loan_type=home amount=250000.00
+2026-04-04T23:23:46Z INFO Application retrieved: app_id=loan-8baa7b12 status=PENDING
+2026-04-04T23:23:53Z INFO Application approved: app_id=loan-8baa7b12
+2026-04-04T23:23:59Z INFO Listed all applications: count=1

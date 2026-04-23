@@ -1,112 +1,14 @@
 {
   "mappings": [
     {
-      "name": "get-customer-not-found",
-      "request": {
-        "method": "GET",
-        "urlPathPattern": "/customers/.*"
-      },
-      "response": {
-        "status": 404,
-        "jsonBody": {
-          "error": "Customer not found"
-        }
-      },
-      "priority": 2
-    },
-    {
-      "name": "get-customer-by-id-456",
       "priority": 1,
+      "name": "proxy-customers-to-file-backend",
       "request": {
-        "method": "GET",
-        "urlPathPattern": "^/customers/456$"
+        "method": "ANY",
+        "urlPathPattern": "/customers.*"
       },
       "response": {
-        "status": 200,
-        "jsonBody": {
-          "customerId": "456",
-          "firstName": "Jane",
-          "lastName": "Smith",
-          "email": "jane.smith@example.com",
-          "phone": "+1987654321",
-          "status": "inactive",
-          "registeredAt": "2022-05-15T10:30:00Z"
-        }
-      }
-    },
-    {
-      "name": "get-customer-by-id-123",
-      "priority": 1,
-      "request": {
-        "method": "GET",
-        "urlPathPattern": "^/customers/123$"
-      },
-      "response": {
-        "status": 200,
-        "jsonBody": {
-          "customerId": "CUST-74291-B",
-          "firstName": "Julian",
-          "lastName": "Vance",
-          "email": "j.vance@provider.com",
-          "phone": "+1-202-555-0147",
-          "status": "active",
-          "registeredAt": "2023-05-12T14:22:05Z"
-        }
-      }
-    },
-    {
-      "name": "create-customer",
-      "request": {
-        "method": "POST",
-        "urlPath": "/customers"
-      },
-      "response": {
-        "status": 201,
-        "headers": {
-          "Location": "/customers/124"
-        },
-        "jsonBody": {
-          "customerId": "124",
-          "message": "Customer created successfully"
-        }
-      }
-    },
-    {
-      "request": {
-        "method": "GET",
-        "urlPathPattern": "/customers/[^/]+"
-      },
-      "response": {
-        "status": 200,
-        "jsonBody": {
-          "id": "123",
-          "name": "John Doe"
-        },
-        "headers": {
-          "Content-Type": "application/json"
-        }
-      }
-    },
-    {
-      "request": {
-        "method": "GET",
-        "urlPathPattern": "/customers/.*"
-      },
-      "response": {
-        "status": 404,
-        "jsonBody": {
-          "message": "Customer not found in database"
-        }
-      }
-    },
-    {
-      "request": {
-        "method": "POST",
-        "urlPath": "/customers"
-      },
-      "response": {
-        "status": 201,
-        "jsonBody": {}
+        "proxyBaseUrl": "http://127.0.0.1:5001"
       }
     }
   ]

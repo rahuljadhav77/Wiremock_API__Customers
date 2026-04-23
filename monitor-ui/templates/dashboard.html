@@ -190,40 +190,6 @@
       font-size: 0.82rem;
     }
     code { color: #cfe0ff; }
-    textarea {
-      width: 100%;
-      background: #0b1018;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 10px;
-      padding: 10px;
-      font-family: inherit;
-      font-size: 0.9rem;
-      resize: vertical;
-      min-height: 80px;
-      margin-bottom: 10px;
-    }
-    textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-    .field-label {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 5px;
-    }
-    .ai-badge {
-      background: linear-gradient(135deg, #6ea8fe, #a78bfa);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-left: 8px;
-    }
   </style>
 </head>
 <body>
@@ -234,9 +200,6 @@
         <p class="sub">Local dashboard on <code>http://127.0.0.1:{{ port }}</code> · project <code id="projVer">—</code></p>
       </div>
       <div class="toolbar">
-        <a href="/stub-generator" style="text-decoration:none;">
-          <button type="button" style="background:rgba(110,168,254,0.1);border-color:rgba(110,168,254,0.4);color:#c8daff;">🤖 AI Stub Generator</button>
-        </a>
         <label class="toggle">
           <input type="checkbox" id="autoRefresh" checked />
           Auto-refresh (5s)
@@ -287,32 +250,6 @@
       <h3>Versions &amp; configuration</h3>
       <p class="sub" style="margin-top:0;">Edit <code>VERSION</code> in the project root to bump the bundle label shown here. Component versions are detected from files and live services.</p>
       <pre id="versionsPre">Loading…</pre>
-    </div>
-
-    <div class="panel" id="aiGenerator">
-      <h3>AI Stub Generator <span class="ai-badge">Gemma 4</span></h3>
-      <p class="sub">Generate WireMock mappings using AI. Just describe what you want.</p>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
-        <div>
-          <label class="field-label">Request Pattern / Description</label>
-          <textarea id="aiReq" placeholder="e.g. GET /api/v1/status or 'A POST request to /customers with JSON body'"></textarea>
-        </div>
-        <div>
-          <label class="field-label">Response Body / Description</label>
-          <textarea id="aiRes" placeholder="e.g. { 'status': 'ok' } or Describe the JSON structure"></textarea>
-        </div>
-      </div>
-
-      <div class="actions" style="margin-top: 5px;">
-        <button type="button" id="btnAiPreview" class="primary">Preview Stub</button>
-        <button type="button" id="btnAiGenerate" class="primary" style="background: rgba(167, 139, 250, 0.15); border-color: rgba(167, 139, 250, 0.5);">Generate &amp; Save</button>
-      </div>
-
-      <div id="aiOutput" style="display: none; margin-top: 15px;">
-        <p class="sub" id="aiOutputFile">Target: ...</p>
-        <pre id="aiStubResult"></pre>
-      </div>
     </div>
 
     <footer>
@@ -412,49 +349,6 @@
         timer = setInterval(refresh, 5000);
       }
     }
-
-    async function aiGenerate(write = false) {
-      const req = document.getElementById("aiReq").value.trim();
-      const res = document.getElementById("aiRes").value.trim();
-      if (!req || !res) {
-        showToast("Please provide both request and response descriptions", "warn");
-        return;
-      }
-
-      const btn = write ? document.getElementById("btnAiGenerate") : document.getElementById("btnAiPreview");
-      const oldText = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = "Processing...";
-
-      try {
-        const r = await fetch("/api/ai/generate-stub", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            request_description: req,
-            response_description: res,
-            write: write
-          })
-        });
-        const j = await r.json();
-        if (j.ok) {
-          document.getElementById("aiOutput").style.display = "block";
-          document.getElementById("aiOutputFile").textContent = "File: " + j.file + (write ? " (Saved)" : " (Preview - Not Saved)");
-          document.getElementById("aiStubResult").textContent = JSON.stringify(j.stub, null, 2);
-          showToast(j.message);
-        } else {
-          showToast(j.message, "bad");
-        }
-      } catch (e) {
-        showToast("AI Generation failed: " + e, "bad");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = oldText;
-      }
-    }
-
-    document.getElementById("btnAiPreview").addEventListener("click", () => aiGenerate(false));
-    document.getElementById("btnAiGenerate").addEventListener("click", () => aiGenerate(true));
 
     document.getElementById("autoRefresh").addEventListener("change", armAutoRefresh);
 

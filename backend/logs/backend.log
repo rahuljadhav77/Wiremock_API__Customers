@@ -1,0 +1,27 @@
+2026-04-04T22:59:59Z INFO IN GET /health from=127.0.0.1 requestId=83f3382f-c5d3-4e90-971f-93ba4a57e848
+2026-04-04T22:59:59Z INFO OUT GET /health status=200 requestId=83f3382f-c5d3-4e90-971f-93ba4a57e848
+2026-04-04T23:04:03Z INFO IN GET /health from=127.0.0.1 requestId=f34662bb-b52c-456e-808a-9734714fe095
+2026-04-04T23:04:03Z INFO OUT GET /health status=200 requestId=f34662bb-b52c-456e-808a-9734714fe095
+2026-04-04T23:04:18Z INFO IN GET /customers/cust-001 from=127.0.0.1 requestId=b55b3a4f-140e-4ad7-b365-fd74d28e5f8f
+2026-04-04T23:04:18Z INFO GET hit customer_id=cust-001 email=john.doe@example.com
+2026-04-04T23:04:18Z INFO OUT GET /customers/cust-001 status=200 requestId=b55b3a4f-140e-4ad7-b365-fd74d28e5f8f
+2026-04-04T23:04:26Z INFO IN POST /customers from=127.0.0.1 requestId=9087ecf3-624c-4d73-9dee-d5008a261a93
+2026-04-04T23:04:26Z INFO POST created customer_id=cust-cef12c0a email=alice.smith@example.com
+2026-04-04T23:04:26Z INFO OUT POST /customers status=201 requestId=9087ecf3-624c-4d73-9dee-d5008a261a93
+2026-04-04T23:04:32Z INFO IN GET /customers/cust-cef12c0a from=127.0.0.1 requestId=ed593b18-a6db-4e87-8405-d454e5003962
+2026-04-04T23:04:32Z INFO GET hit customer_id=cust-cef12c0a email=alice.smith@example.com
+2026-04-04T23:04:32Z INFO OUT GET /customers/cust-cef12c0a status=200 requestId=ed593b18-a6db-4e87-8405-d454e5003962
+2026-04-24T01:17:51Z INFO IN GET /health from=127.0.0.1 requestId=6fee37c4-c046-49a2-9dc4-2d141c53300c
+2026-04-24T01:17:51Z INFO OUT GET /health status=200 requestId=6fee37c4-c046-49a2-9dc4-2d141c53300c
+2026-04-24T01:17:55Z INFO IN GET /health from=127.0.0.1 requestId=6114b59e-42b6-41ed-870b-883e3b1c4d70
+2026-04-24T01:17:55Z INFO OUT GET /health status=200 requestId=6114b59e-42b6-41ed-870b-883e3b1c4d70
+2026-04-24T01:17:59Z INFO IN GET /health from=127.0.0.1 requestId=39f7ab76-d46f-439a-bcf4-dc141feaeb6f
+2026-04-24T01:17:59Z INFO OUT GET /health status=200 requestId=39f7ab76-d46f-439a-bcf4-dc141feaeb6f
+2026-04-24T01:18:03Z INFO IN GET /health from=127.0.0.1 requestId=396ebf04-8111-453a-9147-f7e71e89ce62
+2026-04-24T01:18:03Z INFO OUT GET /health status=200 requestId=396ebf04-8111-453a-9147-f7e71e89ce62
+2026-04-24T01:18:07Z INFO IN GET /health from=127.0.0.1 requestId=9d8db28b-6c42-401f-88f0-0639122db772
+2026-04-24T01:18:07Z INFO OUT GET /health status=200 requestId=9d8db28b-6c42-401f-88f0-0639122db772
+2026-04-24T01:18:11Z INFO IN GET /health from=127.0.0.1 requestId=9c80c2ee-05ec-46bb-a8b9-c6afc7faf068
+2026-04-24T01:18:11Z INFO OUT GET /health status=200 requestId=9c80c2ee-05ec-46bb-a8b9-c6afc7faf068
+2026-04-24T01:18:16Z INFO IN GET /health from=127.0.0.1 requestId=8e3231bb-b69c-4204-af4f-481a1b144376
+2026-04-24T01:18:16Z INFO OUT GET /health status=200 requestId=8e3231bb-b69c-4204-af4f-481a1b144376
