@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Service monitor — wiremock-customer-api</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --border: #2d3a50;
+      --text: #e8eef7;
+      --muted: #9fb0c8;
+      --ok: #3ddc84;
+      --down: #ff6b6b;
+      --accent: #6ea8fe;
+      --warn: #f5c542;
+      --radius: 12px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(1200px 600px at 20% -10%, #1b2a44 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin: 4px 0 0;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    label.toggle {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--down);
+      box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.15);
+    }
+    .dot.up {
+      background: var(--ok);
+      box-shadow: 0 0 0 4px rgba(61, 220, 132, 0.15);
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin: 0 0 12px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    button {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: #24314a;
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: transform 0.06s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    button:hover {
+      border-color: #3f5577;
+      background: #2c3b57;
+    }
+    button:active { transform: translateY(1px); }
+    button.primary {
+      border-color: rgba(110, 168, 254, 0.55);
+      background: rgba(110, 168, 254, 0.12);
+    }
+    button.danger {
+      border-color: rgba(255, 107, 107, 0.45);
+      background: rgba(255, 107, 107, 0.10);
+    }
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    .panel {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: rgba(0,0,0,0.12);
+    }
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 0.98rem;
+    }
+    pre {
+      margin: 0;
+      padding: 12px;
+      border-radius: 10px;
+      background: #0b1018;
+      border: 1px solid #24314a;
+      color: #d7e2f5;
+      font-size: 0.78rem;
+      overflow: auto;
+      max-height: 220px;
+    }
+    .toast {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      max-width: min(520px, calc(100vw - 28px));
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(26, 35, 50, 0.95);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-size: 0.9rem;
+      display: none;
+      z-index: 50;
+    }
+    .toast.show { display: block; }
+    .toast.warn { border-color: rgba(245, 197, 66, 0.45); }
+    .toast.bad { border-color: rgba(255, 107, 107, 0.45); }
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    code { color: #cfe0ff; }
+    textarea {
+      width: 100%;
+      background: #0b1018;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: vertical;
+      min-height: 80px;
+      margin-bottom: 10px;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .field-label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .ai-badge {
+      background: linear-gradient(135deg, #6ea8fe, #a78bfa);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Service monitor</h1>
+        <p class="sub">Local dashboard on <code>http://127.0.0.1:{{ port }}</code> · project <code id="projVer">—</code></p>
+      </div>
+      <div class="toolbar">
+        <a href="/stub-generator" style="text-decoration:none;">
+          <button type="button" style="background:rgba(110,168,254,0.1);border-color:rgba(110,168,254,0.4);color:#c8daff;">🤖 AI Stub Generator</button>
+        </a>
+        <label class="toggle">
+          <input type="checkbox" id="autoRefresh" checked />
+          Auto-refresh (5s)
+        </label>
+        <button type="button" id="btnRefresh" class="primary">Refresh now</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card" aria-label="WireMock">
+        <h2>
+          WireMock
+          <span class="pill" id="wmPill"><span class="dot" id="wmDot"></span><span id="wmText">Checking…</span></span>
+        </h2>
+        <p class="meta">Port <code>8080</code> · Admin <code>/__admin</code></p>
+        <div class="actions">
+          <button type="button" data-action="start-wiremock" class="primary">Start</button>
+          <button type="button" data-action="stop-wiremock" class="danger">Stop</button>
+        </div>
+      </section>
+
+      <section class="card" aria-label="Backend">
+        <h2>
+          Customer API
+          <span class="pill" id="bePill"><span class="dot" id="beDot"></span><span id="beText">Checking…</span></span>
+        </h2>
+        <p class="meta">Port <code>5001</code> · Excel/CSV backend</p>
+        <div class="actions">
+          <button type="button" data-action="start-backend" class="primary">Start</button>
+          <button type="button" data-action="stop-backend" class="danger">Stop</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="panel" style="margin-top:14px;">
+      <h3>Stack</h3>
+      <div class="actions">
+        <button type="button" data-action="start-all" class="primary">Start all</button>
+        <button type="button" data-action="stop-all" class="danger">Stop all</button>
+        <button type="button" id="btnDockerPull">Docker: pull images</button>
+      </div>
+      <p class="sub" style="margin-top:10px;">
+        “Start all” runs <code>start-all.ps1</code> (pip install, backend, then WireMock). “Docker pull” runs <code>docker compose pull</code> (needs Docker running).
+      </p>
+    </div>
+
+    <div class="panel">
+      <h3>Versions &amp; configuration</h3>
+      <p class="sub" style="margin-top:0;">Edit <code>VERSION</code> in the project root to bump the bundle label shown here. Component versions are detected from files and live services.</p>
+      <pre id="versionsPre">Loading…</pre>
+    </div>
+
+    <div class="panel" id="aiGenerator">
+      <h3>AI Stub Generator <span class="ai-badge">Gemma 4</span></h3>
+      <p class="sub">Generate WireMock mappings using AI. Just describe what you want.</p>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
+        <div>
+          <label class="field-label">Request Pattern / Description</label>
+          <textarea id="aiReq" placeholder="e.g. GET /api/v1/status or 'A POST request to /customers with JSON body'"></textarea>
+        </div>
+        <div>
+          <label class="field-label">Response Body / Description</label>
+          <textarea id="aiRes" placeholder="e.g. { 'status': 'ok' } or Describe the JSON structure"></textarea>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top: 5px;">
+        <button type="button" id="btnAiPreview" class="primary">Preview Stub</button>
+        <button type="button" id="btnAiGenerate" class="primary" style="background: rgba(167, 139, 250, 0.15); border-color: rgba(167, 139, 250, 0.5);">Generate &amp; Save</button>
+      </div>
+
+      <div id="aiOutput" style="display: none; margin-top: 15px;">
+        <p class="sub" id="aiOutputFile">Target: ...</p>
+        <pre id="aiStubResult"></pre>
+      </div>
+    </div>
+
+    <footer>
+      This UI can start/stop processes on your machine. Keep it on <code>127.0.0.1</code> only. Logs: <code>backend/logs/backend.log</code>, <code>logs/wiremock.log</code>.
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const toast = document.getElementById("toast");
+    let timer = null;
+
+    function showToast(msg, kind) {
+      toast.textContent = msg;
+      toast.className = "toast show" + (kind === "warn" ? " warn" : kind === "bad" ? " bad" : "");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => { toast.classList.remove("show"); }, 5200);
+    }
+
+    function setServiceUI(prefix, up, detail) {
+      const dot = document.getElementById(prefix + "Dot");
+      const text = document.getElementById(prefix + "Text");
+      dot.classList.toggle("up", !!up);
+      text.textContent = up ? ("Up" + (detail ? " · " + detail : "")) : ("Down" + (detail ? " · " + detail : ""));
+    }
+
+    async function refresh() {
+      try {
+        const r = await fetch("/api/overview", { headers: { "Accept": "application/json" } });
+        const j = await r.json();
+        document.getElementById("projVer").textContent = j.project_version || "—";
+
+        const wm = j.services.wiremock;
+        const wmDetail = wm.version ? ("v" + wm.version) : (wm.admin_error ? String(wm.admin_error).slice(0, 80) : "");
+        setServiceUI("wm", wm.up, wmDetail);
+
+        const be = j.services.backend;
+        const beDetail = be.up ? "healthy" : (be.error ? String(be.error).slice(0, 80) : "");
+        setServiceUI("be", be.up, beDetail);
+
+        const lines = [];
+        lines.push("project VERSION: " + (j.project_version || "—"));
+        lines.push("wiremock standalone jar (tools/): " + (j.wiremock_jar || "not found"));
+        lines.push("");
+        lines.push("docker-compose images:");
+        const imgs = j.compose_images || {};
+        if (Object.keys(imgs).length === 0) lines.push("  (no docker-compose.yml or no image: lines parsed)");
+        else Object.entries(imgs).forEach(([k, v]) => lines.push("  - " + k + ": " + v));
+        lines.push("");
+        lines.push("backend/requirements.txt (first lines):");
+        lines.push(j.backend_requirements || "(missing)");
+        document.getElementById("versionsPre").textContent = lines.join("\n");
+      } catch (e) {
+        showToast("Refresh failed: " + e, "bad");
+      }
+    }
+
+    async function postAction(action) {
+      const buttons = document.querySelectorAll("button[data-action]");
+      buttons.forEach(b => b.disabled = true);
+      try {
+        const r = await fetch("/api/control/" + action, { method: "POST" });
+        const j = await r.json();
+        showToast((j.ok ? "OK: " : "Failed: ") + (j.message || j.action || action), j.ok ? "" : "bad");
+        await refresh();
+      } catch (e) {
+        showToast("Request failed: " + e, "bad");
+      } finally {
+        buttons.forEach(b => b.disabled = false);
+      }
+    }
+
+    document.getElementById("btnRefresh").addEventListener("click", refresh);
+    document.querySelectorAll("button[data-action]").forEach(btn => {
+      btn.addEventListener("click", () => postAction(btn.getAttribute("data-action")));
+    });
+
+    document.getElementById("btnDockerPull").addEventListener("click", async () => {
+      if (!confirm("Run docker compose pull? This downloads images and may take a while.")) return;
+      const b = document.getElementById("btnDockerPull");
+      b.disabled = true;
+      try {
+        const r = await fetch("/api/docker/pull", { method: "POST" });
+        const j = await r.json();
+        showToast((j.ok ? "Docker: " : "Docker failed: ") + (j.message || ""), j.ok ? "" : "bad");
+      } catch (e) {
+        showToast("Docker pull request failed: " + e, "bad");
+      } finally {
+        b.disabled = false;
+      }
+    });
+
+    function armAutoRefresh() {
+      clearInterval(timer);
+      if (document.getElementById("autoRefresh").checked) {
+        timer = setInterval(refresh, 5000);
+      }
+    }
+
+    async function aiGenerate(write = false) {
+      const req = document.getElementById("aiReq").value.trim();
+      const res = document.getElementById("aiRes").value.trim();
+      if (!req || !res) {
+        showToast("Please provide both request and response descriptions", "warn");
+        return;
+      }
+
+      const btn = write ? document.getElementById("btnAiGenerate") : document.getElementById("btnAiPreview");
+      const oldText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Processing...";
+
+      try {
+        const r = await fetch("/api/ai/generate-stub", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            request_description: req,
+            response_description: res,
+            write: write
+          })
+        });
+        const j = await r.json();
+        if (j.ok) {
+          document.getElementById("aiOutput").style.display = "block";
+          document.getElementById("aiOutputFile").textContent = "File: " + j.file + (write ? " (Saved)" : " (Preview - Not Saved)");
+          document.getElementById("aiStubResult").textContent = JSON.stringify(j.stub, null, 2);
+          showToast(j.message);
+        } else {
+          showToast(j.message, "bad");
+        }
+      } catch (e) {
+        showToast("AI Generation failed: " + e, "bad");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = oldText;
+      }
+    }
+
+    document.getElementById("btnAiPreview").addEventListener("click", () => aiGenerate(false));
+    document.getElementById("btnAiGenerate").addEventListener("click", () => aiGenerate(true));
+
+    document.getElementById("autoRefresh").addEventListener("change", armAutoRefresh);
+
+    armAutoRefresh();
+    refresh();
+  </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer API Visualizer</title>
+  <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
+</head>
+<body>
+  <redoc id="redoc-container"></redoc>
+  <script>
+    const spec = {
+      openapi: "3.0.3",
+      info: {
+        title: "Customer Information API (Mocked by WireMock)",
+        version: "1.0.0"
+      },
+      servers: [{ url: "http://localhost:8080" }],
+      paths: {
+        "/customers/{customerId}": {
+          get: {
+            summary: "Get customer by ID",
+            parameters: [
+              {
+                in: "path",
+                name: "customerId",
+                required: true,
+                schema: { type: "string" }
+              }
+            ],
+            responses: {
+              "200": {
+                description: "Customer found",
+                content: {
+                  "application/json": {
+                    schema: { $ref: "#/components/schemas/Customer" }
+                  }
+                }
+              },
+              "404": {
+                description: "Customer endpoint not found",
+                content: {
+                  "application/json": {
+                    schema: { $ref: "#/components/schemas/ErrorResponse" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/customers": {
+          post: {
+            summary: "Create customer",
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/CreateCustomerRequest" }
+                }
+              }
+            },
+            responses: {
+              "201": {
+                description: "Created",
+                headers: {
+                  Location: { schema: { type: "string" } }
+                },
+                content: {
+                  "application/json": {
+                    schema: { $ref: "#/components/schemas/CreateCustomerResponse" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      components: {
+        schemas: {
+          Customer: {
+            type: "object",
+            properties: {
+              customerId: { type: "string" },
+              firstName: { type: "string" },
+              lastName: { type: "string" },
+              email: { type: "string" },
+              phone: { type: "string" },
+              status: { type: "string" },
+              registeredAt: { type: "string", format: "date-time" }
+            }
+          },
+          CreateCustomerRequest: {
+            type: "object",
+            required: ["firstName", "lastName", "email"],
+            properties: {
+              firstName: { type: "string" },
+              lastName: { type: "string" },
+              email: { type: "string", format: "email" },
+              phone: { type: "string" }
+            }
+          },
+          CreateCustomerResponse: {
+            type: "object",
+            properties: {
+              customerId: { type: "string" },
+              message: { type: "string" }
+            }
+          },
+          ErrorResponse: {
+            type: "object",
+            properties: {
+              error: { type: "string" }
+            }
+          }
+        }
+      }
+    };
+
+    Redoc.init(spec, {}, document.getElementById("redoc-container"));
+  </script>
+</body>
+</html>

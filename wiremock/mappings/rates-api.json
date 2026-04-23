@@ -1,0 +1,86 @@
+{
+  "mappings": [
+    {
+      "name": "get-rate-quote",
+      "request": {
+        "method": "POST",
+        "urlPath": "/rates/quote"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "loanType": "personal",
+          "annualRate": 7.49,
+          "message": "Your personalized rate quote is ready for review."
+        }
+      }
+    },
+    {
+      "name": "get-all-rates",
+      "request": {
+        "method": "POST",
+        "urlPath": "/rates/all"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "rates": [
+            {"loanType": "home", "annualRate": 6.85},
+            {"loanType": "auto", "annualRate": 5.45},
+            {"loanType": "personal", "annualRate": 8.99},
+            {"loanType": "student", "annualRate": 4.99},
+            {"loanType": "business", "annualRate": 7.25}
+          ]
+        }
+      }
+    },
+    {
+      "name": "convert-currency-rates",
+      "request": {
+        "method": "POST",
+        "urlPath": "/rates/convert",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$.base_currency"
+          },
+          {
+            "matchesJsonPath": "$.target_currencies"
+          },
+          {
+            "matchesJsonPath": "$.date"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "base_currency": "USD",
+          "date": "2026-04-09",
+          "rates": {
+            "EUR": 0.92,
+            "GBP": 0.78,
+            "INR": 83.15,
+            "JPY": 152.30,
+            "AUD": 1.52
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "name": "health",
+      "request": {
+        "method": "GET",
+        "urlPath": "/health"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "status": "ok"
+        }
+      }
+    }
+  ]
+}

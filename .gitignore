@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+ENV/
+env/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Logs (runtime data)
+logs/
+**/logs/
+*.log
+
+# Data files (runtime)
+backend/data/
+**/data/
+*.xlsx
+*.xlsm
+*.csv
+
+# Large binaries (download on demand)
+tools/wiremock-standalone-*.jar
+tools/
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Secrets — NEVER commit these
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.json
+
+# Temporary files created by agent
+tmp*.yaml
+tmp*.yml
+tmp*.json
+
+# Node modules (if added later)
+node_modules/
+npm-debug.log
+
+# Java
+target/
+.classpath
+.project
+.settings/
+
+# Interest / Loan / Rates runtime artefacts
+interest-rate-api/__pycache__/
+loan-api/__pycache__/
+rates-api/__pycache__/

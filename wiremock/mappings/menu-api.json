@@ -1,0 +1,54 @@
+{
+  "mappings": [
+    {
+      "name": "get-menu",
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/v1/menu"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "restaurant": "Urban Bites",
+          "menu": {
+            "food": [
+              {
+                "id": 101,
+                "name": "Margherita Pizza",
+                "description": "Classic pizza with tomato, mozzarella, and basil",
+                "price": 8.99,
+                "category": "Main Course"
+              },
+              {
+                "id": 102,
+                "name": "Caesar Salad",
+                "description": "Romaine lettuce, parmesan, croutons, Caesar dressing",
+                "price": 6.50,
+                "category": "Starter"
+              }
+            ],
+            "drinks": [
+              {
+                "id": 201,
+                "name": "Fresh Lemonade",
+                "description": "Homemade lemonade with mint",
+                "price": 3.00,
+                "category": "Non-Alcoholic"
+              },
+              {
+                "id": 202,
+                "name": "Red Wine",
+                "description": "Glass of premium Cabernet Sauvignon",
+                "price": 7.50,
+                "category": "Alcoholic"
+              }
+            ]
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

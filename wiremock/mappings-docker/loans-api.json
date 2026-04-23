@@ -1,0 +1,15 @@
+{
+  "mappings": [
+    {
+      "priority": 1,
+      "name": "proxy-loans-to-file-backend",
+      "request": {
+        "method": "ANY",
+        "urlPathPattern": "/loans.*"
+      },
+      "response": {
+        "proxyBaseUrl": "http://loans-api:5003"
+      }
+    }
+  ]
+}

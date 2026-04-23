@@ -1,0 +1,15 @@
+{
+  "mappings": [
+    {
+      "priority": 1,
+      "name": "proxy-customers-to-file-backend",
+      "request": {
+        "method": "ANY",
+        "urlPathPattern": "/customers.*"
+      },
+      "response": {
+        "proxyBaseUrl": "http://customer-backend:5001"
+      }
+    }
+  ]
+}

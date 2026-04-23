@@ -1,0 +1,15 @@
+{
+  "mappings": [
+    {
+      "priority": 1,
+      "name": "proxy-rates-to-file-backend",
+      "request": {
+        "method": "ANY",
+        "urlPathPattern": "/rates.*"
+      },
+      "response": {
+        "proxyBaseUrl": "http://rates-api:5002"
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+volumes:
+  customer-data:
+
+services:
+  customer-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: customer-backend
+    environment:
+      CUSTOMER_DATA_PATH: /app/data/customers.xlsx
+      BIND_HOST: "0.0.0.0"
+      PORT: "5001"
+    volumes:
+      - customer-data:/app/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5001/health', timeout=2)",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+
+  wiremock:
+    image: wiremock/wiremock:3.9.1
+    container_name: wiremock-customer-api
+    depends_on:
+      customer-backend:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock/mappings-docker:/home/wiremock/mappings:ro
+      - ./wiremock/__files:/home/wiremock/__files:ro
+    command:
+      - "--verbose"
+      - "--global-response-templating"
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui:latest
+    container_name: customer-api-docs
+    depends_on:
+      - wiremock
+    ports:
+      - "8081:8080"
+    environment:
+      SWAGGER_JSON: /openapi/customer-api.yaml
+    volumes:
+      - ./openapi:/openapi:ro
