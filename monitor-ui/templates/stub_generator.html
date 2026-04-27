@@ -34,7 +34,6 @@
       line-height: 1.5;
     }
 
-    /* NAV */
     nav {
       display: flex;
       align-items: center;
@@ -43,398 +42,141 @@
       border-bottom: 1px solid var(--border);
       background: rgba(21,29,46,0.8);
       backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
     }
-    .nav-logo {
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      background: linear-gradient(135deg, var(--accent), var(--purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav-sep { color: var(--border); }
-    .nav-title { font-size: 0.9rem; color: var(--muted); }
+    .nav-logo { font-size: 0.95rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
     .nav-spacer { flex: 1; }
-    .badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--purple));
-      color: #fff;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    a.back-link {
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.15s;
-    }
+    .badge { font-size: 0.68rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--purple)); color: #fff; text-transform: uppercase; }
+    a.back-link { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
     a.back-link:hover { color: var(--text); }
 
-    /* LAYOUT */
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 32px 20px 60px;
-    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
     .hero { text-align: center; margin-bottom: 36px; }
-    .hero h1 {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #e8eef7 30%, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 10px;
-    }
+    .hero h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; background: linear-gradient(135deg, #e8eef7 30%, var(--accent)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { color: var(--muted); font-size: 0.95rem; margin-top: 10px; }
 
-    /* TABS */
-    .tabs {
-      display: flex;
-      gap: 4px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 5px;
-      margin-bottom: 24px;
-      width: fit-content;
-    }
-    .tab-btn {
-      padding: 9px 22px;
-      border-radius: 9px;
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.18s;
-      font-family: inherit;
-    }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active {
-      background: linear-gradient(135deg, rgba(110,168,254,0.18), rgba(167,139,250,0.18));
-      color: var(--text);
-      border: 1px solid rgba(110,168,254,0.3);
-    }
+    .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 5px; margin-bottom: 24px; width: fit-content; }
+    .tab-btn { padding: 9px 22px; border-radius: 9px; border: none; background: transparent; color: var(--muted); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.18s; font-family: inherit; }
+    .tab-btn.active { background: linear-gradient(135deg, rgba(110,168,254,0.18), rgba(167,139,250,0.18)); color: var(--text); border: 1px solid rgba(110,168,254,0.3); }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* CARDS */
-    .card {
-      background: linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-    .card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-    }
-    .icon {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
+    .card { background: linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01)); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; color: var(--text); }
+    .icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
     .icon-blue { background: rgba(110,168,254,0.15); }
     .icon-purple { background: rgba(167,139,250,0.15); }
 
-    /* UPLOAD ZONE */
-    .upload-zone {
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      padding: 40px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-    }
-    .upload-zone:hover, .upload-zone.dragover {
-      border-color: var(--accent);
-      background: rgba(110,168,254,0.04);
-    }
-    .upload-zone input[type="file"] {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      opacity: 0; cursor: pointer;
-    }
+    .upload-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
+    .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: rgba(110,168,254,0.04); }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
     .upload-icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .upload-zone p { color: var(--muted); font-size: 0.9rem; }
-    .upload-zone strong { color: var(--accent); }
-    .file-chosen {
-      margin-top: 12px;
-      padding: 10px 14px;
-      background: rgba(61,220,132,0.08);
-      border: 1px solid rgba(61,220,132,0.25);
-      border-radius: 10px;
-      color: var(--ok);
-      font-size: 0.88rem;
-      display: none;
-      align-items: center;
-      gap: 8px;
-    }
+    .file-chosen { margin-top: 12px; padding: 10px 14px; background: rgba(61,220,132,0.08); border: 1px solid rgba(61,220,132,0.25); border-radius: 10px; color: var(--ok); font-size: 0.88rem; display: none; align-items: center; gap: 8px; }
     .file-chosen.show { display: flex; }
 
-    /* FORM FIELDS */
-    label.field-label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 6px;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-    textarea, input[type="text"] {
-      width: 100%;
-      background: #0b1018;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      transition: border-color 0.15s;
-    }
-    textarea { resize: vertical; min-height: 130px; }
-    textarea:focus, input:focus { outline: none; border-color: var(--accent); }
-    .field-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    @media (max-width: 640px) { .field-grid { grid-template-columns: 1fr; } }
+    label.field-label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.03em; text-transform: uppercase; }
+    textarea { width: 100%; background: #0b1018; border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; resize: vertical; min-height: 130px; }
+    textarea:focus { outline: none; border-color: var(--accent); }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
 
-    /* BUTTONS */
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .btn {
-      padding: 11px 22px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: #1e2d45;
-      color: var(--text);
-      font-family: inherit;
-      transition: all 0.15s;
-      display: flex; align-items: center; gap: 8px;
-    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .btn { padding: 11px 22px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: #1e2d45; color: var(--text); font-family: inherit; transition: all 0.15s; display: flex; align-items: center; gap: 8px; }
     .btn:hover { background: #243552; border-color: #3f5577; }
-    .btn:active { transform: translateY(1px); }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-    .btn-primary {
-      background: linear-gradient(135deg, rgba(110,168,254,0.2), rgba(167,139,250,0.15));
-      border-color: rgba(110,168,254,0.4);
-      color: #c8daff;
-    }
-    .btn-primary:hover { background: linear-gradient(135deg, rgba(110,168,254,0.3), rgba(167,139,250,0.25)); }
-    .btn-save {
-      background: linear-gradient(135deg, rgba(61,220,132,0.15), rgba(61,220,132,0.08));
-      border-color: rgba(61,220,132,0.35);
-      color: var(--ok);
-    }
-    .btn-save:hover { background: linear-gradient(135deg, rgba(61,220,132,0.25), rgba(61,220,132,0.15)); }
+    .btn-primary { background: linear-gradient(135deg, rgba(110,168,254,0.2), rgba(167,139,250,0.15)); border-color: rgba(110,168,254,0.4); color: #c8daff; }
+    .btn-save { background: linear-gradient(135deg, rgba(61,220,132,0.15), rgba(61,220,132,0.08)); border-color: rgba(61,220,132,0.35); color: var(--ok); }
 
-    /* RESULTS */
-    .result-panel {
-      margin-top: 22px;
-      display: none;
-    }
+    .result-panel { margin-top: 22px; display: none; }
     .result-panel.show { display: block; }
-    .result-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .result-title { font-size: 0.9rem; font-weight: 600; }
-    .result-meta { font-size: 0.8rem; color: var(--muted); }
-    .stats-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .stat-chip {
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border: 1px solid;
-    }
+    .stats-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .stat-chip { padding: 6px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; border: 1px solid; }
     .stat-ok { background: rgba(61,220,132,0.1); border-color: rgba(61,220,132,0.3); color: var(--ok); }
-    .stat-err { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.3); color: var(--err); }
-    .stat-info { background: rgba(110,168,254,0.1); border-color: rgba(110,168,254,0.3); color: var(--accent); }
-    pre.code-block {
-      background: #070d16;
-      border: 1px solid #1e2d45;
-      border-radius: 10px;
-      padding: 14px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      overflow: auto;
-      max-height: 340px;
-      color: #c8daff;
-      white-space: pre-wrap;
-    }
+    pre.code-block { background: #070d16; border: 1px solid #1e2d45; border-radius: 10px; padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; overflow: auto; max-height: 340px; color: #c8daff; white-space: pre-wrap; }
 
-    /* SPINNER */
-    .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      display: none;
-    }
+    .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
     .spinner.show { display: inline-block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* TOAST */
-    .toast {
-      position: fixed; right: 18px; bottom: 18px;
-      max-width: min(480px, calc(100vw - 36px));
-      padding: 13px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(21,29,46,0.97);
-      backdrop-filter: blur(8px);
-      box-shadow: var(--shadow);
-      font-size: 0.88rem;
-      display: none; z-index: 200;
-      animation: slideUp 0.2s ease;
-    }
+    .toast { position: fixed; right: 18px; bottom: 18px; max-width: min(480px, calc(100vw - 36px)); padding: 13px 16px; border-radius: 12px; border: 1px solid var(--border); background: rgba(21,29,46,0.97); backdrop-filter: blur(8px); box-shadow: var(--shadow); font-size: 0.88rem; display: none; z-index: 200; }
     .toast.show { display: block; }
     .toast.ok { border-color: rgba(61,220,132,0.4); color: var(--ok); }
     .toast.bad { border-color: rgba(255,107,107,0.4); color: var(--err); }
     .toast.warn { border-color: rgba(245,197,66,0.4); color: var(--warn); }
-    @keyframes slideUp { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    .section-sep { height: 1px; background: var(--border); margin: 22px 0; }
   </style>
 </head>
 <body>
 
 <nav>
   <span class="nav-logo">WireMock</span>
-  <span class="nav-sep">/</span>
-  <span class="nav-title">AI Stub Generator</span>
   <div class="nav-spacer"></div>
   <span class="badge">Gemma 4 · 31B</span>
-  <a class="back-link" href="/">&#8592; Dashboard</a>
+  <a class="back-link" href="/">← Dashboard</a>
 </nav>
 
 <div class="wrap">
   <div class="hero">
     <h1>AI Stub Generator</h1>
-    <p>Upload a Swagger/OpenAPI spec or provide JSON request &amp; response pairs.<br>The agent will autonomously generate and save WireMock mappings.</p>
+    <p>Generate WireMock mappings from Swagger files or JSON pairs.</p>
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" data-tab="swagger" id="tab-swagger">📄 Swagger / OpenAPI</button>
-    <button class="tab-btn" data-tab="json" id="tab-json">🔁 JSON Request &amp; Response</button>
+    <button class="tab-btn active" data-tab="swagger">📄 Swagger</button>
+    <button class="tab-btn" data-tab="json">🔁 Request Response Pairs</button>
   </div>
 
-  <!-- TAB 1: SWAGGER -->
+  <!-- PANEL: SWAGGER -->
   <div class="tab-panel active" id="panel-swagger">
     <div class="card">
-      <div class="card-title">
-        <span class="icon icon-blue">📄</span>
-        Upload OpenAPI / Swagger File
-      </div>
-
+      <div class="card-title"><span class="icon icon-blue">📄</span> OpenAPI Spec</div>
       <div class="upload-zone" id="uploadZone">
         <input type="file" id="swaggerFile" accept=".yaml,.yml,.json" />
         <div class="upload-icon">☁️</div>
-        <p><strong>Click to browse</strong> or drag &amp; drop your file here</p>
-        <p style="margin-top:6px;font-size:0.8rem;">Supported: <code style="color:var(--accent)">.yaml</code> · <code style="color:var(--accent)">.yml</code> · <code style="color:var(--accent)">.json</code></p>
+        <p>Drop Swagger/OpenAPI file here</p>
       </div>
-      <div class="file-chosen" id="fileChosen">
-        <span>✅</span>
-        <span id="fileChosenName">—</span>
-      </div>
-
+      <div class="file-chosen" id="fileChosen"><span id="fileChosenName"></span></div>
       <div class="btn-row">
-        <button class="btn btn-primary" id="btnRunAgent">
-          <span class="spinner" id="swaggerSpinner"></span>
-          🤖 Run Agent
-        </button>
+        <button class="btn btn-primary" id="btnRunAgent"><span class="spinner" id="swaggerSpinner"></span> Run Agent</button>
       </div>
-
       <div class="result-panel" id="swaggerResult">
-        <div class="section-sep"></div>
-        <div class="result-header">
-          <span class="result-title">Agent Log</span>
-          <span class="result-meta" id="swaggerResultMeta"></span>
-        </div>
         <div class="stats-row" id="swaggerStats"></div>
-        <pre class="code-block" id="swaggerLog"></pre>
+        <div id="swaggerStubsContainer" style="display:none; margin-top:20px;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+            <thead style="background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border);">
+              <tr><th style="padding:10px;text-align:left;">Method</th><th style="padding:10px;text-align:left;">Path</th><th style="padding:10px;text-align:center;">Status</th><th style="padding:10px;text-align:right;">Action</th></tr>
+            </thead>
+            <tbody id="swaggerStubsTable"></tbody>
+          </table>
+        </div>
+        <pre class="code-block" id="swaggerLog" style="margin-top:20px;"></pre>
       </div>
     </div>
   </div>
 
-  <!-- TAB 2: JSON PAIR -->
+  <!-- PANEL: REQUEST RESPONSE -->
   <div class="tab-panel" id="panel-json">
     <div class="card">
-      <div class="card-title">
-        <span class="icon icon-purple">🔁</span>
-        JSON Request &amp; Response
-      </div>
-
+      <div class="card-title"><span class="icon icon-purple">🔁</span> Request Response Pair</div>
       <div class="field-grid">
-        <div>
-          <label class="field-label">Request Description / JSON</label>
-          <textarea id="jsonReq" placeholder='e.g. GET /customers/123&#10;&#10;or paste raw JSON:&#10;{"method":"GET","url":"/api/orders/5"}'></textarea>
-        </div>
-        <div>
-          <label class="field-label">Expected Response Body / JSON</label>
-          <textarea id="jsonRes" placeholder='e.g. Return 200 with customer object&#10;&#10;or paste raw JSON:&#10;{"id":"5","status":"active"}'></textarea>
-        </div>
+        <div><label class="field-label">Request</label><textarea id="jsonReq"></textarea></div>
+        <div><label class="field-label">Response</label><textarea id="jsonRes"></textarea></div>
       </div>
-
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btnPreview">
-          <span class="spinner" id="previewSpinner"></span>
-          👁 Preview Stub
-        </button>
-        <button class="btn btn-save" id="btnSave">
-          <span class="spinner" id="saveSpinner"></span>
-          💾 Generate &amp; Save
-        </button>
+      <div class="btn-row" id="jsonActionRow1">
+        <button class="btn btn-primary" id="btnPreview"><span class="spinner" id="previewSpinner"></span> Generate Stub</button>
       </div>
-
       <div class="result-panel" id="jsonResult">
-        <div class="section-sep"></div>
-        <div class="result-header">
-          <span class="result-title">Generated Stub</span>
-          <span class="result-meta" id="jsonResultMeta"></span>
-        </div>
         <pre class="code-block" id="jsonStubOutput"></pre>
+        <div class="btn-row" id="jsonActionRow2" style="display:none; margin-top:20px;">
+          <button class="btn" id="btnTestLive" style="color:var(--accent); border-color:var(--accent);">🧪 Test Live</button>
+          <button class="btn" id="btnRetryTest" style="display:none;">🔄 Retry Test</button>
+          <button class="btn btn-save" id="btnSave" style="display:none;">🚀 Save</button>
+          <button class="btn" id="btnDiscard" style="color:var(--muted);">🗑️ Discard</button>
+        </div>
+        <!-- TEST RESULT AREA -->
+        <div id="testResult" style="display:none; margin-top:20px; border:1px solid var(--border); padding:16px; border-radius:10px;">
+          <div style="margin-bottom:10px;"><strong id="testStatusText"></strong></div>
+          <div id="testAnalysis" style="font-size:0.85rem; color:var(--purple); margin-bottom:10px;"></div>
+          <div id="agentTerminal" style="background:#050a12; padding:10px; border-radius:8px; font-family:monospace; font-size:0.75rem; color:var(--ok); max-height:150px; overflow:auto; border:1px solid #1e2d45;"></div>
+          <pre id="testResponseBody" class="code-block" style="margin-top:10px; max-height:150px;"></pre>
+        </div>
       </div>
     </div>
   </div>
@@ -443,130 +185,130 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // Toast
+  let currentStub = null;
   const toast = document.getElementById('toast');
-  function showToast(msg, kind = '') {
-    toast.textContent = msg;
-    toast.className = 'toast show' + (kind ? ' ' + kind : '');
-    clearTimeout(toast._t);
-    toast._t = setTimeout(() => toast.classList.remove('show'), 5000);
-  }
+  function showToast(msg, kind='') { toast.textContent = msg; toast.className = 'toast show ' + kind; setTimeout(() => toast.classList.remove('show'), 4000); }
 
-  // Tabs
+  // Tab Switching
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.onclick = () => {
+      document.querySelectorAll('.tab-btn, .tab-panel').forEach(el => el.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
-    });
+    };
   });
 
-  // Upload zone drag & drop styling
-  const zone = document.getElementById('uploadZone');
+  // Swagger Flow
   const fileInput = document.getElementById('swaggerFile');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault();
-    zone.classList.remove('dragover');
-    if (e.dataTransfer.files.length) {
-      fileInput.files = e.dataTransfer.files;
-      updateFileChosen(fileInput.files[0].name);
-    }
-  });
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files.length) updateFileChosen(fileInput.files[0].name);
-  });
-  function updateFileChosen(name) {
-    const el = document.getElementById('fileChosen');
-    document.getElementById('fileChosenName').textContent = name;
-    el.classList.add('show');
-  }
+  fileInput.onchange = () => { if(fileInput.files[0]) { document.getElementById('fileChosen').classList.add('show'); document.getElementById('fileChosenName').textContent = fileInput.files[0].name; } };
 
-  // Swagger agent
-  document.getElementById('btnRunAgent').addEventListener('click', async () => {
-    const file = fileInput.files[0];
-    if (!file) { showToast('Please select a Swagger file first.', 'warn'); return; }
-
+  document.getElementById('btnRunAgent').onclick = async () => {
+    if(!fileInput.files[0]) return showToast('Select a file', 'warn');
     const btn = document.getElementById('btnRunAgent');
-    const spinner = document.getElementById('swaggerSpinner');
-    btn.disabled = true;
-    spinner.classList.add('show');
+    const spin = document.getElementById('swaggerSpinner');
+    btn.disabled = true; spin.classList.add('show');
 
-    const fd = new FormData();
-    fd.append('swagger_file', file);
-
+    const fd = new FormData(); fd.append('swagger_file', fileInput.files[0]);
     try {
       const r = await fetch('/api/ai/generate-from-swagger', { method: 'POST', body: fd });
       const j = await r.json();
-
-      const resultPanel = document.getElementById('swaggerResult');
-      const stats = document.getElementById('swaggerStats');
-      resultPanel.classList.add('show');
-      document.getElementById('swaggerResultMeta').textContent = j.message || '';
-      document.getElementById('swaggerLog').textContent = j.log || j.message || 'No output.';
-
-      stats.innerHTML = '';
-      if (j.count !== undefined) {
-        stats.innerHTML += `<span class="stat-chip stat-ok">✅ ${j.count} stubs generated</span>`;
+      document.getElementById('swaggerResult').classList.add('show');
+      document.getElementById('swaggerLog').textContent = j.log || j.message;
+      document.getElementById('swaggerStats').innerHTML = `<span class="stat-chip stat-ok">Generated ${j.count || 0} stubs</span>`;
+      
+      const table = document.getElementById('swaggerStubsTable');
+      table.innerHTML = '';
+      if(j.stubs) {
+        document.getElementById('swaggerStubsContainer').style.display = 'block';
+        window._stubs = j.stubs;
+        j.stubs.forEach((s, i) => {
+          table.innerHTML += `<tr style="border-top:1px solid var(--border)"><td style="padding:10px">${s.method}</td><td style="padding:10px">${s.path}</td><td style="padding:10px;text-align:center">${s.status}</td><td style="padding:10px;text-align:right"><button class="btn" style="font-size:0.7rem;padding:4px 8px;" onclick="testSwag(${i}, this)">Test</button></td></tr>`;
+        });
       }
-      if (j.errors !== undefined && j.errors > 0) {
-        stats.innerHTML += `<span class="stat-chip stat-err">❌ ${j.errors} errors</span>`;
-      }
-      if (j.ok) {
-        stats.innerHTML += `<span class="stat-chip stat-info">📁 Saved to wiremock/mappings/</span>`;
-        showToast(j.message, 'ok');
-      } else {
-        showToast(j.message, 'bad');
-      }
-    } catch (e) {
-      showToast('Agent failed: ' + e, 'bad');
-    } finally {
-      btn.disabled = false;
-      spinner.classList.remove('show');
-    }
-  });
+      showToast('Completed', 'ok');
+    } catch(e) { showToast(e.message, 'bad'); }
+    finally { btn.disabled = false; spin.classList.remove('show'); }
+  };
 
-  // JSON pair stub
-  async function doJsonStub(write) {
-    const req = document.getElementById('jsonReq').value.trim();
-    const res = document.getElementById('jsonRes').value.trim();
-    if (!req || !res) { showToast('Please fill in both fields.', 'warn'); return; }
+  async function testSwag(idx, btn) {
+    const item = window._stubs[idx];
+    btn.disabled = true; btn.textContent = 'Testing...';
+    try {
+      const r = await fetch('/api/ai/test-stub', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({stub: item.stub}) });
+      const j = await r.json();
+      btn.textContent = j.passed ? 'Passed' : 'Failed';
+      btn.style.color = j.passed ? 'var(--ok)' : 'var(--err)';
+    } catch(e) { btn.textContent = 'Error'; }
+  }
 
-    const btnId = write ? 'btnSave' : 'btnPreview';
-    const spinnerId = write ? 'saveSpinner' : 'previewSpinner';
-    const btn = document.getElementById(btnId);
-    const spinner = document.getElementById(spinnerId);
-    btn.disabled = true;
-    spinner.classList.add('show');
+  // JSON Flow
+  document.getElementById('btnPreview').onclick = async () => {
+    const req = document.getElementById('jsonReq').value;
+    const res = document.getElementById('jsonRes').value;
+    const btn = document.getElementById('btnPreview');
+    const spin = document.getElementById('previewSpinner');
+    btn.disabled = true; spin.classList.add('show');
+    try {
+      const r = await fetch('/api/ai/generate-stub', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({request_description:req, response_description:res, write:false}) });
+      const j = await r.json();
+      currentStub = j.stub;
+      document.getElementById('jsonResult').classList.add('show');
+      document.getElementById('jsonStubOutput').textContent = JSON.stringify(j.stub, null, 2);
+      document.getElementById('jsonActionRow2').style.display = 'flex';
+      document.getElementById('btnTestLive').style.display = 'flex';
+      document.getElementById('btnRetryTest').style.display = 'none';
+      document.getElementById('btnSave').style.display = 'none';
+    } catch(e) { showToast(e.message, 'bad'); }
+    finally { btn.disabled = false; spin.classList.remove('show'); }
+  };
+
+  async function runTest() {
+    const term = document.getElementById('agentTerminal');
+    const resArea = document.getElementById('testResult');
+    const btnTest = document.getElementById('btnTestLive');
+    const btnRetry = document.getElementById('btnRetryTest');
+    
+    resArea.style.display = 'block';
+    term.innerHTML = 'Starting test...';
+    btnTest.disabled = true;
+    btnRetry.disabled = true;
 
     try {
-      const r = await fetch('/api/ai/generate-stub', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ request_description: req, response_description: res, write })
-      });
+      const r = await fetch('/api/ai/test-stub', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({stub: currentStub}) });
       const j = await r.json();
-
-      const panel = document.getElementById('jsonResult');
-      panel.classList.add('show');
-      document.getElementById('jsonResultMeta').textContent =
-        j.file ? (write ? `Saved → ${j.file}` : `Preview → ${j.file} (not saved)`) : '';
-      document.getElementById('jsonStubOutput').textContent =
-        j.stub ? JSON.stringify(j.stub, null, 2) : (j.message || 'No output.');
-
-      showToast(j.message, j.ok ? 'ok' : 'bad');
-    } catch (e) {
-      showToast('Request failed: ' + e, 'bad');
+      if(j.logs) {
+        term.innerHTML = '';
+        j.logs.forEach((l, i) => setTimeout(() => { term.innerHTML += `<div>> ${l}</div>`; term.scrollTop = term.scrollHeight; }, i*150));
+      }
+      document.getElementById('testStatusText').textContent = j.passed ? 'Test Passed' : 'Test Failed';
+      document.getElementById('testStatusText').style.color = j.passed ? 'var(--ok)' : 'var(--err)';
+      document.getElementById('testAnalysis').textContent = j.analysis;
+      document.getElementById('testResponseBody').textContent = j.response_body;
+      
+      if(j.passed) document.getElementById('btnSave').style.display = 'flex';
+    } catch(e) { 
+      showToast(e.message, 'bad'); 
+      document.getElementById('testStatusText').textContent = 'Test Error';
+      document.getElementById('testStatusText').style.color = 'var(--err)';
     } finally {
-      btn.disabled = false;
-      spinner.classList.remove('show');
+      btnTest.style.display = 'none';
+      btnRetry.style.display = 'flex';
+      btnRetry.disabled = false;
     }
   }
 
-  document.getElementById('btnPreview').addEventListener('click', () => doJsonStub(false));
-  document.getElementById('btnSave').addEventListener('click', () => doJsonStub(true));
+  document.getElementById('btnTestLive').onclick = runTest;
+  document.getElementById('btnRetryTest').onclick = runTest;
+
+  document.getElementById('btnSave').onclick = async () => {
+    try {
+      const r = await fetch('/api/ai/generate-stub', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({request_description:document.getElementById('jsonReq').value, response_description:document.getElementById('jsonRes').value, write:true}) });
+      const j = await r.json();
+      if(j.ok) { showToast('Saved!', 'ok'); location.reload(); }
+    } catch(e) { showToast(e.message, 'bad'); }
+  };
+
+  document.getElementById('btnDiscard').onclick = () => location.reload();
 </script>
 </body>
 </html>

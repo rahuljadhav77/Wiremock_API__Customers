@@ -1,0 +1,229 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/items"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": [
+          {
+            "id": "elec-001",
+            "name": "Smartphone",
+            "brand": "TechCorp",
+            "price": 599.99,
+            "category": "Mobile"
+          },
+          {
+            "id": "elec-002",
+            "name": "Laptop",
+            "brand": "ComputeX",
+            "price": 1200.0,
+            "category": "Computers"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/items"
+      },
+      "response": {
+        "status": 201,
+        "jsonBody": {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "name": "String",
+          "brand": "String",
+          "model": "String",
+          "category": "Electronics",
+          "price": 0,
+          "stockQuantity": 0
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/items/[a-zA-Z0-9_-]+"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "itemId": "12345",
+          "name": "Smart LED TV",
+          "brand": "ElectroTech",
+          "model": "ET-V55",
+          "price": 499.99,
+          "category": "Television",
+          "specifications": {
+            "screenSize": "55 inch",
+            "resolution": "4K",
+            "warranty": "2 years"
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/items/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "message": "Item not found"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/items/[^/]+"
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/items/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/items"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": [
+          {
+            "id": "e101",
+            "name": "Smartphone",
+            "brand": "TechCorp",
+            "model": "X-Pro",
+            "price": 799.99,
+            "stock": 50
+          },
+          {
+            "id": "e102",
+            "name": "Wireless Headphones",
+            "brand": "AudioMax",
+            "model": "Sonic-V",
+            "price": 149.5,
+            "stock": 120
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/items"
+      },
+      "response": {
+        "status": 201,
+        "jsonBody": {
+          "id": "elec-12345",
+          "name": "Example Electronic Item",
+          "category": "Electronics",
+          "brand": "TechBrand",
+          "price": 299.99,
+          "inStock": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/items/[a-zA-Z0-9_-]+"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "name": "Wireless Headphones",
+          "brand": "AudioTech",
+          "model": "AT-2000",
+          "price": 149.99,
+          "category": "Electronics",
+          "stockQuantity": 50,
+          "specifications": {
+            "batteryLife": "20 hours",
+            "connectivity": "Bluetooth 5.0",
+            "color": "Black"
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/items/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "error": "Item not found"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/items/[^/]+"
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/items/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "message": "Item not found"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

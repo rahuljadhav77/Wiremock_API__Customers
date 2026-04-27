@@ -272,21 +272,25 @@ def create_app() -> Flask:
             builtins.print = capture_print
 
             try:
-                agent_stub_generator.process_openapi(tmp_path)
+                generated_stubs = agent_stub_generator.process_openapi(tmp_path)
+                
+                stubs_count = len(generated_stubs)
+                error_count = 0 
+                
+                log = log_capture.getvalue()
+                
+                return jsonify({
+                    "ok": True,
+                    "message": f"Successfully generated {stubs_count} stubs.",
+                    "log": log,
+                    "count": stubs_count,
+                    "errors": error_count,
+                    "stubs": generated_stubs
+                })
             finally:
                 builtins.print = original_print
                 tmp_path.unlink(missing_ok=True)
 
-            log = log_capture.getvalue()
-            count = log.count("Successfully appended")
-            errors = log.count("Error generating")
-            return jsonify({
-                "ok": True,
-                "message": f"Generated {count} stubs, {errors} errors",
-                "log": log,
-                "count": count,
-                "errors": errors
-            })
         except Exception as e:
             return jsonify({"ok": False, "message": str(e)}), 500
 
@@ -325,6 +329,51 @@ def create_app() -> Flask:
                 "message": "Generated stub (preview only — not saved)",
                 "stub": stub,
                 "file": mapping_file
+            })
+        except Exception as e:
+            return jsonify({"ok": False, "message": str(e)}), 500
+
+    @app.post("/api/ai/test-stub")
+    def ai_test_stub():
+        from flask import request as flask_request
+        import test_agent
+        
+        data = flask_request.get_json(silent=True) or {}
+        stub = data.get("stub")
+        if not stub:
+            return jsonify({"ok": False, "message": "No stub data provided"}), 400
+
+        try:
+            # 1. Post to WireMock in-memory mappings (ensure it's live for testing)
+            import urllib.request
+            admin_url = "http://127.0.0.1:8080/__admin/mappings"
+            admin_req = urllib.request.Request(
+                admin_url,
+                data=json.dumps(stub).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            urllib.request.urlopen(admin_req, timeout=5)
+            
+            # 2. Run the AI Test Agent
+            report = test_agent.run_test_agent(stub)
+            
+            if not report.get("ok"):
+                return jsonify({
+                    "ok": False, 
+                    "message": report.get("message"),
+                    "logs": report.get("logs", [])
+                }), 500
+            
+            res = report["result"]
+            return jsonify({
+                "ok": True,
+                "passed": res["passed"],
+                "status": res["actual_status"],
+                "expected": res["expected_status"],
+                "url": res["url"],
+                "response_body": res["actual_body"],
+                "analysis": res["analysis"],
+                "logs": report.get("logs", [])
             })
         except Exception as e:
             return jsonify({"ok": False, "message": str(e)}), 500

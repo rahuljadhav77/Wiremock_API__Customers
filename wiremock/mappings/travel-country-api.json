@@ -1,0 +1,280 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/([^/]+)"
+      },
+      "priority": 1,
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "countryName": "France",
+          "capital": "Paris",
+          "currency": "EUR"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "countryName": "Example Country",
+          "capital": "Example City",
+          "visaRequired": false,
+          "currency": "Example Currency",
+          "travelAdvisory": "Safe"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "message": "Country not found"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "countryName": "ExampleCountry",
+          "capital": "ExampleCity",
+          "currency": "EXC",
+          "visaRequired": false,
+          "travelAdvisory": "Safe to travel"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 500,
+        "jsonBody": {
+          "message": "Internal server error"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/.*"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "message": "Country not found"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 500,
+        "jsonBody": {
+          "message": "Internal server error"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[a-zA-Z]+"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "countryName": "Example Country",
+          "capital": "Example City",
+          "currency": "USD",
+          "visaRequired": false,
+          "travelTips": "Bring a passport and a map."
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "error": "Country not found"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 500,
+        "jsonBody": {
+          "message": "Internal server error"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "countryName": "ExampleCountry",
+          "capital": "ExampleCity",
+          "currency": "EXC",
+          "visaRequirements": "Visa required for some citizens"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "message": "Country not found"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 500,
+        "jsonBody": {
+          "message": "Internal server error"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "countryName": "Example Country",
+          "capital": "Example City",
+          "currency": "EXC",
+          "travelTips": "Bring a map and a camera."
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "error": "Country not found"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 500,
+        "jsonBody": {
+          "message": "Internal server error"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "countryName": "ExampleCountry",
+          "travelInfo": "General travel information about the country.",
+          "visaRequired": false,
+          "currency": "USD"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 404,
+        "jsonBody": {
+          "message": "Country not found"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/travel-country/[^/]+"
+      },
+      "response": {
+        "status": 500,
+        "jsonBody": {
+          "message": "Internal server error"
+        }
+      }
+    }
+  ]
+}

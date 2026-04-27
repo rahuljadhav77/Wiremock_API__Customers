@@ -14,7 +14,7 @@ except ImportError:
 
 def process_openapi(file_path: Path):
     """Parses an OpenAPI/Swagger file and autonomously generates stubs for all endpoints."""
-    print(f"🤖 Agent starting: Parsing OpenAPI spec from {file_path}")
+    print(f"Agent starting: Parsing OpenAPI spec from {file_path}")
     
     if file_path.suffix in ['.yaml', '.yml']:
         if not yaml:
@@ -32,13 +32,14 @@ def process_openapi(file_path: Path):
         return
 
     total_generated = 0
+    generated_stubs_list = []
 
     for path, methods in paths.items():
         for method, details in methods.items():
             if method.lower() not in ["get", "post", "put", "delete", "patch", "options", "head"]:
                 continue
             
-            print(f"\n🔍 Analyzing: {method.upper()} {path}")
+            print(f"\nAnalyzing: {method.upper()} {path}")
             
             # Construct a rich request description for the AI
             summary = details.get("summary", "")
@@ -54,7 +55,7 @@ def process_openapi(file_path: Path):
 
             responses = details.get("responses", {})
             for status_code, resp_details in responses.items():
-                print(f"  ⚡ Generating mock for status {status_code}...")
+                print(f"  Generating mock for status {status_code}...")
                 
                 resp_desc = f"Status Code: {status_code}\n"
                 resp_desc += f"Description: {resp_details.get('description', '')}\n"
@@ -65,16 +66,16 @@ def process_openapi(file_path: Path):
                     schema = content["application/json"].get("schema", {})
                     example = content["application/json"].get("example", {})
                     if example:
-                        resp_desc += f"Example JSON to return: {json.dumps(example)}\n"
+                        resp_desc += f"Example JSON to return: {json.dumps(example, ensure_ascii=False)}\n"
                     else:
-                        resp_desc += f"Response Schema: {json.dumps(schema)}\n"
+                        resp_desc += f"Response Schema: {json.dumps(schema, ensure_ascii=False)}\n"
                 
                 try:
                     # 1. Ask the LLM to generate the WireMock JSON
                     stub = generate_stubs.generate_new_api_stub(req_desc, resp_desc)
                     
                     # Fallback validation: Ensure status code matches if the AI missed it
-                    if "response" in stub and "status" not in stub["response"] and status_code.isdigit():
+                    if "response" in stub and "status" not in stub["response"] and str(status_code).isdigit():
                         stub["response"]["status"] = int(status_code)
                     
                     # 2. Autonomously route the stub to the correct mapping file
@@ -83,12 +84,19 @@ def process_openapi(file_path: Path):
                     # 3. Append to the file
                     generate_stubs.append_stub_to_mapping_file(stub, mapping_file)
                     
-                    print(f"    ✅ Successfully appended to {mapping_file}")
+                    print(f"    Successfully appended to {mapping_file}")
                     total_generated += 1
+                    generated_stubs_list.append({
+                        "path": path,
+                        "method": method.upper(),
+                        "status": status_code,
+                        "stub": stub
+                    })
                 except Exception as e:
                     print(f"    ❌ Error generating stub for {method.upper()} {path}: {e}")
 
     print(f"\n🎉 Agent finished! Autonomously generated {total_generated} stubs.")
+    return generated_stubs_list
 
 def process_json_pairs(directory: Path):
     """Autonomously scans a directory for JSON request/response pairs to generate stubs."""
